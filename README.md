@@ -10,10 +10,11 @@
 * [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
 * [sshpass](https://installati.one/ubuntu/20.04/sshpass/)
 * git
+* [vim](https://www.cyberciti.biz/faq/howto-install-vim-on-ubuntu-linux/)
 
 ### Step To Follow: 
 
-1. Clone the file from this git repository to your local machine
+1. Clone the file from this git repository to your Cloud Virtual Machine.
 2. Start your Azure Sandbox (with existing resources group) or login to your Azure Account and create your own resources group.
 3. Change the resources group name of your Azure account in variable.tf 
     > variable "resource_group_name" 
