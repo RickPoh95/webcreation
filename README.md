@@ -42,7 +42,7 @@
 
 10. git clone the repository from my [github repository - RickPoh95/webcreation](https://github.com/RickPoh95/webcreation) for the Dockerfile and web folder.
 
-11. Change the directory to webcreation folder and Build the docker images with the following command:
+11. `Change the directory to webcreation folder` and Build the docker images with the following command:
 ```
 sudo docker build -t groceryweb/test:v1 .
 ```

@@ -1,6 +1,6 @@
 variable "resource_group_name" {
   description = "Name of the resource group in which the resources will be created"
-  default     = "1-37798499-playground-sandbox"
+  default     = "<your_resources_group_name>"
 }
 
 variable "location" {
@@ -17,8 +17,8 @@ variable "tags" {
 }
 
 variable "domain_name" {
-  description = "Domain name for gitlab to access through public ip"
-  default     = "minigrocery"  
+  description = "Domain name for minigrocery to access through public ip"
+  default     = "minigrocery01"  
 }
 
 variable "admin_user" {
