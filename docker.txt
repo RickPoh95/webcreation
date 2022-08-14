@@ -1,0 +1,14 @@
+Create Volume
+mkdir -p /var/lib/docker/apacheweb
+
+Dockerfile
+FROM httpd:2.4
+COPY ./web/ /usr/local/apache2/htdocs/
+
+Build the docker file
+docker build -t groceryweb/rickpoh:v1 .
+
+docker run -dit --name groceryweb -p 8080:80 -v /var/lib/docker/apacheweb:/mnt groceryweb/test:v1
+docker exec -it 79 /bin/bash
+docker run -d -p 8081:80 --name test groceryweb/rickpoh
+
