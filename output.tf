@@ -1,4 +1,4 @@
-output "gitlab_public_ip" {
+output "minigrocery_public_ip" {
   value = azurerm_public_ip.minigrocery.ip_address
 }
 

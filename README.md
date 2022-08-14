@@ -7,14 +7,13 @@
 * Azure Sandbox / Azure 
 * Azure CLI
 * [Terraform](https://cloudlinuxtech.com/install-terraform-on-ubuntu-uninstall-terraform/)
-* [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
 * [sshpass](https://installati.one/ubuntu/20.04/sshpass/)
 * git
 * [vim](https://www.cyberciti.biz/faq/howto-install-vim-on-ubuntu-linux/)
 
 ### Step To Follow: 
 
-1. Clone the file from this git repository to your Cloud Virtual Machine.
+1. Clone the file from this git repository to your Local Machine.
 2. Start your Azure Sandbox (with existing resources group) or login to your Azure Account and create your own resources group.
 3. Change the resources group name of your Azure account in variable.tf 
     > variable "resource_group_name" 
@@ -33,46 +32,55 @@
    * `terraform apply -auto-approve`
 7. After complete `terraform apply -auto-approve`, wait for 1-2 minute and press Refresh button to check the resources that add to Azure resources group.
 <p align="center">
-  <img src="./Photo/Azure%20Resources%20require%20for%20gitlab%20installation.png" width="350" title="private connection">
+  <img src="./images/resources_portal.png" width="450" title="private connection">
 
-8. Open the GitLab Webpage using the `public ip_address` or `DNS` in virtual machine (after the resources appear in Azure resources group), `take note that the connection is not secure and require to access the link by clicking advances setting`
+8. Create Azure Bastion (Bastian Subnet will be create automatically) and login to access the Linux Virtual Machine with the admin_user and admin_password that input in variable.tf.
 <p align="center">
-  <img src="./Photo/insecure.png" width="450" title="private connection">
+  <img src="./images/bastian.png" width="450" title="private connection">
 
-9. Wait for 2 - 4 minute after you click the link and you will see the page shown:
-<p align="center">
-  <img src="./Photo/gitlab%20502.png" width="350" title="502">
+9. Install [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04) in the virtual machine and check the docker version with `docker --version` 
 
-10. Keep Refreshing until the webpage show with the image below as the image at the virtual machine require some time to configure and setup using the images that provided.
-<p align="center">
-  <img src="./Photo/gitlab%20webpage.png" width="350" title="unsecure">
+10. git clone the repository from my [github repository - RickPoh95/webcreation](https://github.com/RickPoh95/webcreation) for the Dockerfile and web folder.
 
-11. Use Ansible to automate the file configuration with `main.yml` and the supporting document --> `publicip` & `password` to get the GitLab username and password, adding DNS + register SSL for the webpage with the following comment: 
+11. Change the directory to webcreation folder and Build the docker images with the following command:
 ```
-  ansible-playbook main.yml -u <vm_admin_user_name> -e "{target:<vm_publicip>}" -k  -i <vm_publicip>,
+sudo docker build -t groceryweb/test:v1 .
 ```
-<p align="center">
-  <img src="./Photo/gitlab%20secure.png" width="350" title="secure with lock">
 
-12. After Login, you may git push [(with ssh key set up)](https://docs.gitlab.com/ee/user/ssh.html) your repository to keep your file or code on GitLab.
-<p align="center">
-  <img src="./Photo/Push%20File%20to%20Gitlab.png" width="350" title="secure with lock">
+12. Check the docker images with `sudo docker images` and create the volume in the following command: 
+```
+sudo mkdir -p /var/lib/docker/apacheweb
+```
 
-13. Delete all the resources in resources group by using the terraform comment:
+13. Build the docker container with the following command:
+```
+sudo docker run -dit --name groceryweb -p 8080:80 -v /var/lib/docker/apacheweb:/mnt groceryweb/test:v1
+```
+
+14. Open the Mini Grocery Webpage using the `public ip_address` or `DNS` in virtual machine (after the resources appear in Azure resources group) with the port of 8080, `take note that the connection is not secure and require to access the link by clicking advances setting`
+<p align="center">
+  <img src="./images/minigrocery_page.png" width="450" title="private connection">
+
+
+15. Delete all the resources in resources group by using the terraform comment:
     * `terraform destroy -auto-approve`
 
 ### Reference
 
-* [Bitnami Application Credentials](https://docs.bitnami.com/azure/faq/get-started/find-credentials/)
 * [Terraform Azurerm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group)
 * [Terraform Local - Create local file](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file)
-* [Ansibe Replace](https://www.middlewareinventory.com/blog/ansible-replace-line-in-file-ansible-replace-examples)
-* [Automate Root Password Change using Ansible Playbook](https://www.thegeeksearch.com/automate-root-password-change-using-ansible-playbook/)
-* [Brandon challenge-gitlab](https://github.com/vysky/challenge-gitlab)
+* [azure-bastion](https://registry.terraform.io/modules/kumarvna/azure-bastion/azurerm/latest)
+* [Docker Hub - httpd](https://hub.docker.com/_/httpd)
+* [Grocery Store – Ecommerce Category Flat Bootstrap Responsive Website Template](https://w3layouts.com/template/grocery-store-ecommerce-online-shopping-category-flat-bootstrap-responsive-web-template/)
+
+### Area To improve
+* Include SSL in the webpage.
+
 
 ### Note
 
-* Terraform code was reference from the json code (in ExportedTemplate-1-6da424f6-playground-sandbox foldere) that exported from Azure Platform
+* Terraform code was reference from the json code (in ExportedTemplate-1-e2a75474-playground-sandbox folder) that exported from Azure Platform
+* The webpage is downloaded from [Grocery Store – Ecommerce Category Flat Bootstrap Responsive Website Template](https://w3layouts.com/template/grocery-store-ecommerce-online-shopping-category-flat-bootstrap-responsive-web-template/)
 
 
 
