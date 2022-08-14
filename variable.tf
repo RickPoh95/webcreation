@@ -23,10 +23,10 @@ variable "domain_name" {
 
 variable "admin_user" {
   description = "User name to use as the admin account on the VMs that will be part of the VM scale set"
-  default     = "apachetest"
+  default     = "<your_admin_user_name>"
 }
 
 variable "admin_password" {
   description = "Default password for admin account"
-  default = "apache12345!"
+  default = "<your_admin_password>"
 }
