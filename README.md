@@ -57,7 +57,7 @@ sudo mkdir -p /var/lib/docker/apacheweb
 sudo docker run -dit --name groceryweb -p 8080:80 -v /var/lib/docker/apacheweb:/mnt groceryweb/test:v1
 ```
 
-14. Open the Mini Grocery Webpage using the `public ip_address` or `DNS` in virtual machine (after the resources appear in Azure resources group) with the port of 8080, `take note that the connection is not secure and require to access the link by clicking advances setting`
+14. Open the Mini Grocery Webpage using the `public ip_address` or `DNS` in virtual machine (after the resources appear in Azure resources group) with the port of 8080 - you need to enable the port at NSG, `take note that the connection is not secure and require to access the link by clicking advances setting`
 <p align="center">
   <img src="./images/minigrocery_page.png" width="450" title="private connection">
 
